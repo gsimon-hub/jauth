@@ -1,16 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { onBeforeMount } from 'vue'
-import { userStore } from '@/stores/index'
+import { onBeforeMount } from 'vue';
+import { useJwtStore } from './stores/jwt-token';
 import axios from 'axios'
 
+const jwtStore = useJwtStore()
 
-const user = userStore()
 onBeforeMount(() => {
-  user.initializeStore()
-  const access = user.access
-
+  jwtStore.initializeStore()
+  const access = jwtStore.access
+  
+  console.log('access: ', access);
+  
   if (access) {
     axios.defaults.headers.common['Authorization'] = 'JWT ' + access
   } else {
@@ -28,14 +30,14 @@ onBeforeMount(() => {
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/sign-up">Sign Up</RouterLink>
         <RouterLink to="/log-in">Log In</RouterLink>
+        <RouterLink to="/sign-up">Sign Up</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
   </header>
 
-  <!-- <RouterView /> -->
+  <RouterView />
 </template>
 
 <style scoped>

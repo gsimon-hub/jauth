@@ -27,10 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CORS_ALLOWED_ORIGINES = ['http://localhost:5173', 'http://127.0.0.1:8000']
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://127.0.0.1:8000']
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('JWT',),
+    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 REST_FRAMEWORK = {
