@@ -1,11 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useJwtStore } from './stores/jwt-token';
 import axios from 'axios'
 
 const jwtStore = useJwtStore()
+// const access = ref('')
 
 onBeforeMount(() => {
   jwtStore.initializeStore()
@@ -19,6 +20,31 @@ onBeforeMount(() => {
     axios.defaults.headers.common['Authorization'] = ''
   }
 })
+
+onMounted(() => {
+  setInterval(() => {
+    getAccess()
+  }, 5000);
+})
+
+function getAccess() {
+  const refreshData =  {
+    refresh: jwtStore.refresh
+  }
+
+  axios
+    .post('/api/v1/jwt/refresh', refreshData)
+    .then(res => {
+      const access = res.data['access']
+      console.log(access);
+
+      localStorage.setItem('access', access)
+      jwtStore.access = access
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 </script>
 
 <template>

@@ -17,7 +17,7 @@ function submitForm(e) {
         .post('/api/v1/users/', formData)
         .then(response => {
             console.log(response.data);
-            router.push('/')
+            router.push('/log-in')
         })
         .catch(err => {
             console.log(err);

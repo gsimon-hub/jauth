@@ -8,8 +8,10 @@ export const useJwtStore = defineStore('token', () => {
     function initializeStore() {
         if (localStorage.getItem('access')) {
             access.value = localStorage.getItem('access')
+            refresh.value = localStorage.getItem('refresh')
         } else {
             access.value = ''
+            refresh.value = ''
         }
     }
 
@@ -17,5 +19,9 @@ export const useJwtStore = defineStore('token', () => {
         access.value = acc
     }
 
-    return {access, refresh, initializeStore, setAccess}
+    function setRefresh(acc) {
+        refresh.value = acc
+    }
+
+    return {access, refresh, initializeStore, setAccess, setRefresh}
 })

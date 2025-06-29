@@ -9,6 +9,7 @@ const router = useRouter()
 const username = ref('')
 const password = ref('')
 const acc = ref('')
+const refresh = ref('')
 
 function submitForm() {
     axios.defaults.headers.common['Authorization'] = ''
@@ -25,10 +26,13 @@ function submitForm() {
             console.log(response.data);
 
             acc.value = response.data['access']
+            refresh.value = response.data['refresh']
 
             token.setAccess(acc.value)
+            token.setRefresh(refresh.value)
             axios.defaults.headers.common['Authorization'] = 'JWT ' + acc.value
             localStorage.setItem('access', acc.value)
+            localStorage.setItem('refresh', refresh.value)
             // console.log('Authorization: ', acc.value);
 
             router.push('/')
